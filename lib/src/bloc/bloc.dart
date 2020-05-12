@@ -3,16 +3,16 @@ import 'dart:io';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ieatta/FirebaseProvider.dart';
+import 'package:ieatta/src/bloc/FirebaseProvider.dart';
 
 class MovieListBloc {
   FirebaseProvider firebaseProvider;
 
-  bool showIndicator = false;
   List<DocumentSnapshot> documentList;
 
   BehaviorSubject<List<DocumentSnapshot>> movieController;
 
+  bool showIndicator = false;
   BehaviorSubject<bool> showIndicatorController;
 
   MovieListBloc() {

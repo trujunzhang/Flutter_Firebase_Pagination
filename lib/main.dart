@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ieatta/homepage.dart';
+import 'package:ieatta/src/ui/homepage.dart';
 
 void main() {
   runApp(MyApp());

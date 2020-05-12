@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ieatta/bloc.dart';
+import 'package:ieatta/src/bloc/bloc.dart';
 
 class HomePage extends StatefulWidget {
   @override
