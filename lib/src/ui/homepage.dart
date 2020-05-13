@@ -11,15 +11,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   MovieListBloc movieListBloc;
-
+String query ="";
+// String query ="fo";
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     movieListBloc = MovieListBloc();
-    movieListBloc.fetchFirstList();
+    movieListBloc.fetchFirstList(query);
     controller.addListener(_scrollListener);
   }
 
@@ -28,6 +28,9 @@ class _HomePageState extends State<HomePage> {
     var streamBuilder = StreamBuilder<List<DocumentSnapshot>>(
       stream: movieListBloc.movieStream,
       builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          var x = 0;
+        }
         if (snapshot.data != null) {
           return ListView.builder(
             itemCount: snapshot.data.length,
@@ -38,10 +41,9 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    leading: CircleAvatar(
-                        child: Text(
-                            snapshot.data[index]["displayName"].toString())),
                     title: Text(snapshot.data[index]["address"]),
+                    subtitle: Text(
+                            snapshot.data[index]["displayName"] ),
                   ),
                 ),
               );
@@ -71,17 +73,20 @@ class _HomePageState extends State<HomePage> {
     if (controller.offset >= controller.position.maxScrollExtent &&
         !controller.position.outOfRange) {
       print("at the end of list");
-      movieListBloc.fetchNextMovies();
+      // movieListBloc.fetchNextMovies();
     }
   }
 
   void nextPageClick() {
-    movieListBloc.fetchNextMovies();
+    movieListBloc.fetchNextMovies(query);
   }
 
   void refreshPageClick() {
-    movieListBloc.fetchFirstList();
+    movieListBloc.fetchFirstList(query);
   }
 
-  void searchChangedText(String text) {}
+  void searchChangedText(String text) {
+    query = text;
+    movieListBloc.fetchFirstList(text);
+  }
 }

@@ -26,9 +26,9 @@ class MovieListBloc {
   Stream<List<DocumentSnapshot>> get movieStream => movieController.stream;
 
 /*This method will automatically fetch first 10 elements from the document list */
-  Future fetchFirstList() async {
+  Future fetchFirstList(String query) async {
     try {
-      documentList = await firebaseProvider.fetchFirstList();
+      documentList = await firebaseProvider.fetchFirstList(query);
       print(documentList);
       movieController.sink.add(documentList);
       try {
@@ -45,11 +45,11 @@ class MovieListBloc {
   }
 
 /*This will automatically fetch the next 10 elements from the list*/
-  fetchNextMovies() async {
+  fetchNextMovies(String query ) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList =
-          await firebaseProvider.fetchNextList(documentList);
+          await firebaseProvider.fetchNextList(documentList,query);
       documentList.addAll(newDocumentList);
       movieController.sink.add(documentList);
       try {
