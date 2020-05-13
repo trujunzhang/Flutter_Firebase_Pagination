@@ -46,6 +46,7 @@ class _SearchBarUIState extends State<SearchBarUI> {
                 ),
                 onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode());
+                  widget.refreshPageClick();
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -79,7 +80,9 @@ class _SearchBarUIState extends State<SearchBarUI> {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
-                    onChanged: (String txt) {},
+                    onChanged: (String txt) {
+                      widget.searchChangedText(txt);
+                    },
                     style: const TextStyle(
                       fontSize: 18,
                     ),

@@ -79,7 +79,9 @@ class _HomePageState extends State<HomePage> {
     movieListBloc.fetchNextMovies();
   }
 
-  void refreshPageClick() {}
+  void refreshPageClick() {
+    movieListBloc.fetchFirstList();
+  }
 
-  void searchChangedText() {}
+  void searchChangedText(String text) {}
 }
