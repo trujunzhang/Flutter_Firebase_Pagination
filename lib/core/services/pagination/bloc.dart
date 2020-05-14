@@ -32,10 +32,16 @@ class MovieListBloc {
   Stream<List<ParseModelRestaurants>> get movieStream => movieController.stream;
 
 /*This method will automatically fetch first 10 elements from the document list */
-  Future fetchFirstList(String query) async {
+  Future fetchFirstList(String search) async {
     try {
       List<ParseModelRestaurants> list = await _firestoreService.collectionList(
         path: FBCollections.Restaurants,
+        queryBuilder: (Query query) {
+          return query
+              .where("displayName",
+                  isGreaterThanOrEqualTo: search.toUpperCase())
+              .limit(2);
+        },
         builder: (data, documentId) =>
             ParseModelRestaurants.fromMap(data, documentId),
       );
@@ -56,9 +62,25 @@ class MovieListBloc {
   }
 
 /*This will automatically fetch the next 10 elements from the list*/
-  fetchNextMovies(String query) async {
+  fetchNextMovies(String search) async {
     try {
       updateIndicator(true);
+      List<ParseModelRestaurants> list = await _firestoreService.collectionList(
+        path: FBCollections.Restaurants,
+        queryBuilder: (Query query) {
+          return query
+              .where("displayName",
+              isGreaterThanOrEqualTo: search.toUpperCase())
+              .startAfterDocument(documentList[documentList.length - 1])
+              .limit(2);
+        },
+        builder: (data, documentId) =>
+            ParseModelRestaurants.fromMap(data, documentId),
+      );
+
+      print(list);
+      movieController.sink.add(list);
+
 //      List<DocumentSnapshot> newDocumentList =
 //          await firebaseProvider.fetchNextList(documentList, query);
 //      documentList.addAll(newDocumentList);
