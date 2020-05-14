@@ -11,7 +11,7 @@ class FirebaseProvider {
 //            .where("displayName", arrayContains: query)
 //        .where("displayName", arrayContainsAny: [query])
         .where("displayName", isGreaterThanOrEqualTo: query.toUpperCase())
-       .limit(2)
+      //  .limit(2)
             .getDocuments())
         .documents;
   }

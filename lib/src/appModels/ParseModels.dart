@@ -1,0 +1,3 @@
+class ParseModels {
+  fromParseRestaurant() {}
+}
