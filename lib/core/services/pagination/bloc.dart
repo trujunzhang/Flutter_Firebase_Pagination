@@ -38,6 +38,7 @@ class MovieListBloc {
         path: FBCollections.Restaurants,
         queryBuilder: (Query query) {
           return query
+              .orderBy("displayName")
               .where("displayName",
                   isGreaterThanOrEqualTo: search.toUpperCase())
               .limit(2);
@@ -69,10 +70,10 @@ class MovieListBloc {
         path: FBCollections.Restaurants,
         queryBuilder: (Query query) {
           return query
+              .orderBy("displayName")
               .where("displayName",
               isGreaterThanOrEqualTo: search.toUpperCase())
               .startAfterDocument(_firestoreService.lastSnapshot)
-              .startAfter(documentList)
               .limit(2);
         },
         builder: (data, documentId) =>
@@ -80,12 +81,9 @@ class MovieListBloc {
       );
 
       print(list);
-      movieController.sink.add(list);
+      documentList.addAll(list);
+      movieController.sink.add(documentList);
 
-//      List<DocumentSnapshot> newDocumentList =
-//          await firebaseProvider.fetchNextList(documentList, query);
-//      documentList.addAll(newDocumentList);
-//      movieController.sink.add(documentList);
       try {
         if (documentList.length == 0) {
           movieController.sink.addError("No Data Available");
