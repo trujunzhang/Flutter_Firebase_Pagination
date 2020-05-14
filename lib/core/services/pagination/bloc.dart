@@ -14,7 +14,7 @@ class MovieListBloc {
 
   FirebaseProvider firebaseProvider;
 
-  List<DocumentSnapshot> documentList;
+  List<ParseModelRestaurants> documentList;
 
   BehaviorSubject<List<ParseModelRestaurants>> movieController;
 
@@ -45,9 +45,9 @@ class MovieListBloc {
         builder: (data, documentId) =>
             ParseModelRestaurants.fromMap(data, documentId),
       );
-
-      print(list);
-      movieController.sink.add(list);
+      documentList= list;
+      print(documentList);
+      movieController.sink.add(documentList);
       try {
         if (documentList.length == 0) {
           movieController.sink.addError("No Data Available");
@@ -71,7 +71,8 @@ class MovieListBloc {
           return query
               .where("displayName",
               isGreaterThanOrEqualTo: search.toUpperCase())
-              .startAfterDocument(documentList[documentList.length - 1])
+//              .startAfterDocument(documentList[documentList.length - 1])
+              .startAfter(documentList)
               .limit(2);
         },
         builder: (data, documentId) =>
