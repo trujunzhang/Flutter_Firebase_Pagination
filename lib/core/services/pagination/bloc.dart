@@ -1,12 +1,17 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:ieatta/src/appModels/models/Restaurants.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../firestore_path.dart';
+import '../firestore_service.dart';
 import 'FirebaseProvider.dart';
 
 class MovieListBloc {
+  final _firestoreService = FirestoreService.instance;
+
   FirebaseProvider firebaseProvider;
 
   List<DocumentSnapshot> documentList;
@@ -29,6 +34,13 @@ class MovieListBloc {
 /*This method will automatically fetch first 10 elements from the document list */
   Future fetchFirstList(String query) async {
     try {
+      List<ParseModelRestaurants> list =
+          await _firestoreService.collectionList(
+        path: FBCollections.Restaurants,
+        builder: (data, documentId) =>
+            ParseModelRestaurants.fromMap(data, documentId),
+      );
+
       documentList = await firebaseProvider.fetchFirstList(query);
       print(documentList);
       movieController.sink.add(documentList);
@@ -46,11 +58,11 @@ class MovieListBloc {
   }
 
 /*This will automatically fetch the next 10 elements from the list*/
-  fetchNextMovies(String query ) async {
+  fetchNextMovies(String query) async {
     try {
       updateIndicator(true);
       List<DocumentSnapshot> newDocumentList =
-          await firebaseProvider.fetchNextList(documentList,query);
+          await firebaseProvider.fetchNextList(documentList, query);
       documentList.addAll(newDocumentList);
       movieController.sink.add(documentList);
       try {

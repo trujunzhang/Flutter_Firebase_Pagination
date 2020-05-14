@@ -58,7 +58,7 @@ class ParseModelRestaurants {
         this.rating = 4.5,
       });
 
-  factory ParseModelRestaurants.fromJson(Map<String, dynamic> json) {
+  factory ParseModelRestaurants.fromMap(Map<String, dynamic> json, String documentId) {
 //    DatabaseBaseModel databaseBaseModel = DatabaseBaseModel.fromJson(json);
     // Attributes
     var displayName = json['displayName'] as String;

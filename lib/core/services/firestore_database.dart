@@ -6,13 +6,15 @@ import 'package:ieatta/core/services/firestore_service.dart';
 import 'package:meta/meta.dart';
 
 String documentIdFromCurrentDate() => DateTime.now().toIso8601String();
-class TodoModel{
+
+class TodoModel {
   String id;
 
   static fromMap(Map<String, dynamic> data, String documentId) {}
 
   toMap() {}
 }
+
 /*
 This is the main class access/call for any UI widgets that require to perform
 any CRUD activities operation in Firestore database.

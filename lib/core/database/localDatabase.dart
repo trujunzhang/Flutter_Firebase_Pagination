@@ -5,11 +5,15 @@ import 'package:path/path.dart';
 
 class DBProvider {
   DBProvider._();
+
   static final DBProvider db = DBProvider._();
   static Database _database;
 
   Future<Database> get database async {
-    print("getting database" + _database.isOpen.toString() + " : " + _database.toString());
+    print("getting database" +
+        _database.isOpen.toString() +
+        " : " +
+        _database.toString());
     if (_database != null) return _database;
     print("getting database 1");
 
