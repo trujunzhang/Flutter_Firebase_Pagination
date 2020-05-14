@@ -3,7 +3,8 @@ import 'dart:io';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ieatta/src/bloc/FirebaseProvider.dart';
+
+import 'FirebaseProvider.dart';
 
 class MovieListBloc {
   FirebaseProvider firebaseProvider;

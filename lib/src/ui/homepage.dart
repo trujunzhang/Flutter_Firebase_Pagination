@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ieatta/src/bloc/bloc.dart';
+import 'package:ieatta/core/services/pagination/bloc.dart';
 
 import 'search_bar_ui.dart';
 
