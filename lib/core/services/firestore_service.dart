@@ -64,11 +64,33 @@ class FirestoreService {
     });
   }
 
+  Future<List<T>> collectionList<T>({
+    @required FBCollections path,
+    @required T builder(Map<String, dynamic> data, String documentID),
+    Query queryBuilder(Query query),
+    int sort(T lhs, T rhs),
+  }) async {
+    Query query = Firestore.instance.collection(fbCollectionToString(path));
+    if (queryBuilder != null) {
+      query = queryBuilder(query);
+    }
+    var snapshot = await query.getDocuments();
+    List<T> result = snapshot.documents
+        .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+        .where((value) => value != null)
+        .toList();
+    if (sort != null) {
+      result.sort(sort);
+    }
+    return result;
+  }
+
   Stream<T> documentStream<T>({
     @required FBCollections path,
     @required T builder(Map<String, dynamic> data, String documentID),
   }) {
-    final DocumentReference reference = Firestore.instance.document(fbCollectionToString(path));
+    final DocumentReference reference =
+        Firestore.instance.document(fbCollectionToString(path));
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
     return snapshots
         .map((snapshot) => builder(snapshot.data, snapshot.documentID));
