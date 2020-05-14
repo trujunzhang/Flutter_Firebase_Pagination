@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ieatta/core/services/pagination/bloc.dart';
+import 'package:ieatta/src/appModels/models/Restaurants.dart';
 
 import 'search_bar_ui.dart';
 
@@ -11,7 +12,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   MovieListBloc movieListBloc;
-String query ="";
+  String query = "";
+
 // String query ="fo";
   ScrollController controller = ScrollController();
 
@@ -25,7 +27,7 @@ String query ="";
 
   @override
   Widget build(BuildContext context) {
-    var streamBuilder = StreamBuilder<List<DocumentSnapshot>>(
+    var streamBuilder = StreamBuilder<List<ParseModelRestaurants>>(
       stream: movieListBloc.movieStream,
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -41,9 +43,8 @@ String query ="";
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListTile(
-                    title: Text(snapshot.data[index]["address"]),
-                    subtitle: Text(
-                            snapshot.data[index]["displayName"] ),
+                    title: Text(snapshot.data[index].displayName),
+                    subtitle: Text(snapshot.data[index].address),
                   ),
                 ),
               );

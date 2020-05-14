@@ -1,4 +1,3 @@
-
 class ParseModelRestaurants {
   static Map<String, String> restaurant = {
     "displayName": "TEXT",
@@ -16,9 +15,7 @@ class ParseModelRestaurants {
   };
 
   @override
-  Future<int> upsert(txn) async {
-
-  }
+  Future<int> upsert(txn) async {}
 
   // length(8)
   final String address;
@@ -41,24 +38,25 @@ class ParseModelRestaurants {
   // Attributes
   final geoLocation;
 
-  ParseModelRestaurants(
-      {this.address,
-      this.street_number,
-      this.route,
-      this.locality,
-      this.sublocality,
-      this.country,
-      this.postal_code,
-      this.administrative_area,
-      this.displayName,
-      this.geoLocation,
-      this.thumbnailUrl,
-      this.originalUrl,
-        this.reviews = 80,
-        this.rating = 4.5,
-      });
+  ParseModelRestaurants({
+    this.address,
+    this.street_number,
+    this.route,
+    this.locality,
+    this.sublocality,
+    this.country,
+    this.postal_code,
+    this.administrative_area,
+    this.displayName,
+    this.geoLocation,
+    this.thumbnailUrl,
+    this.originalUrl,
+    this.reviews = 80,
+    this.rating = 4.5,
+  });
 
-  factory ParseModelRestaurants.fromMap(Map<String, dynamic> json, String documentId) {
+  factory ParseModelRestaurants.fromMap(
+      Map<String, dynamic> json, String documentId) {
 //    DatabaseBaseModel databaseBaseModel = DatabaseBaseModel.fromJson(json);
     // Attributes
     var displayName = json['displayName'] as String;
@@ -89,7 +87,6 @@ class ParseModelRestaurants {
         thumbnailUrl: thumbnailUrl,
         originalUrl: originalUrl);
   }
-
 
   static List<ParseModelRestaurants> restaurantList = <ParseModelRestaurants>[
     ParseModelRestaurants(
@@ -133,8 +130,4 @@ class ParseModelRestaurants {
       rating: 4.5,
     ),
   ];
-
-
-
-
 }

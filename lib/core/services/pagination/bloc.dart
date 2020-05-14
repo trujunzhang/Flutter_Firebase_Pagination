@@ -16,34 +16,32 @@ class MovieListBloc {
 
   List<DocumentSnapshot> documentList;
 
-  BehaviorSubject<List<DocumentSnapshot>> movieController;
+  BehaviorSubject<List<ParseModelRestaurants>> movieController;
 
   bool showIndicator = false;
   BehaviorSubject<bool> showIndicatorController;
 
   MovieListBloc() {
-    movieController = BehaviorSubject<List<DocumentSnapshot>>();
+    movieController = BehaviorSubject<List<ParseModelRestaurants>>();
     showIndicatorController = BehaviorSubject<bool>();
     firebaseProvider = FirebaseProvider();
   }
 
   Stream get getShowIndicatorStream => showIndicatorController.stream;
 
-  Stream<List<DocumentSnapshot>> get movieStream => movieController.stream;
+  Stream<List<ParseModelRestaurants>> get movieStream => movieController.stream;
 
 /*This method will automatically fetch first 10 elements from the document list */
   Future fetchFirstList(String query) async {
     try {
-      List<ParseModelRestaurants> list =
-          await _firestoreService.collectionList(
+      List<ParseModelRestaurants> list = await _firestoreService.collectionList(
         path: FBCollections.Restaurants,
         builder: (data, documentId) =>
             ParseModelRestaurants.fromMap(data, documentId),
       );
 
-      documentList = await firebaseProvider.fetchFirstList(query);
-      print(documentList);
-      movieController.sink.add(documentList);
+      print(list);
+      movieController.sink.add(list);
       try {
         if (documentList.length == 0) {
           movieController.sink.addError("No Data Available");
@@ -61,10 +59,10 @@ class MovieListBloc {
   fetchNextMovies(String query) async {
     try {
       updateIndicator(true);
-      List<DocumentSnapshot> newDocumentList =
-          await firebaseProvider.fetchNextList(documentList, query);
-      documentList.addAll(newDocumentList);
-      movieController.sink.add(documentList);
+//      List<DocumentSnapshot> newDocumentList =
+//          await firebaseProvider.fetchNextList(documentList, query);
+//      documentList.addAll(newDocumentList);
+//      movieController.sink.add(documentList);
       try {
         if (documentList.length == 0) {
           movieController.sink.addError("No Data Available");

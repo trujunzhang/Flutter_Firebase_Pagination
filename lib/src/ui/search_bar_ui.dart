@@ -5,8 +5,7 @@ class SearchBarUI extends StatefulWidget {
       {Key key,
       this.nextPageClick,
       this.refreshPageClick,
-      this.searchChangedText
-      })
+      this.searchChangedText})
       : super(key: key);
 
   final Function nextPageClick;
