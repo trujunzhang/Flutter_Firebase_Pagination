@@ -10,9 +10,7 @@ path and documentID,since most of the time in Firestore design, we will have
 documentID and path for any document and collections.
  */
 class FirestoreService {
-  FirestoreService._();
-
-  static final instance = FirestoreService._();
+  DocumentSnapshot lastSnapshot;
 
   Future<void> setData({
     @required FBCollections path,
@@ -64,6 +62,12 @@ class FirestoreService {
     });
   }
 
+  _getLastSnapshot(List<DocumentSnapshot> documents) {
+    if(documents.length>0){
+      lastSnapshot = documents[documents.length-1];
+    }
+  }
+
   Future<List<T>> collectionList<T>({
     @required FBCollections path,
     @required T builder(Map<String, dynamic> data, String documentID),
@@ -74,8 +78,10 @@ class FirestoreService {
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
-    var snapshot = await query.getDocuments();
-    List<T> result = snapshot.documents
+    QuerySnapshot snapshot = await query.getDocuments();
+    List<DocumentSnapshot> documents = snapshot.documents;
+    _getLastSnapshot(documents);
+    List<T> result = documents
         .map((snapshot) => builder(snapshot.data, snapshot.documentID))
         .where((value) => value != null)
         .toList();

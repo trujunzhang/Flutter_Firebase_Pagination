@@ -31,7 +31,7 @@ class FirestoreDatabase {
   FirestoreDatabase({@required this.uid}) : assert(uid != null);
   final String uid;
 
-  final _firestoreService = FirestoreService.instance;
+//  final _firestoreService = FirestoreService.instance;
 
   //Method to create/update todoModel
 //  Future<void> setTodo(TodoModel todo) async => await _firestoreService.setData(

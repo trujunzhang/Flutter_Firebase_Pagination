@@ -10,7 +10,7 @@ import '../firestore_service.dart';
 import 'FirebaseProvider.dart';
 
 class MovieListBloc {
-  final _firestoreService = FirestoreService.instance;
+  final _firestoreService = FirestoreService();
 
   FirebaseProvider firebaseProvider;
 
@@ -71,7 +71,7 @@ class MovieListBloc {
           return query
               .where("displayName",
               isGreaterThanOrEqualTo: search.toUpperCase())
-//              .startAfterDocument(documentList[documentList.length - 1])
+              .startAfterDocument(_firestoreService.lastSnapshot)
               .startAfter(documentList)
               .limit(2);
         },
