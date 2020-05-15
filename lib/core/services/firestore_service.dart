@@ -63,8 +63,9 @@ class FirestoreService {
   }
 
   _getLastSnapshot(List<DocumentSnapshot> documents) {
-    if(documents.length>0){
-      lastSnapshot = documents[documents.length-1];
+    lastSnapshot = null;
+    if (documents.length > 0) {
+      lastSnapshot = documents[documents.length - 1];
     }
   }
 

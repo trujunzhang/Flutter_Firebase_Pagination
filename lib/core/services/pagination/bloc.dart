@@ -46,7 +46,7 @@ class MovieListBloc {
         builder: (data, documentId) =>
             ParseModelRestaurants.fromMap(data, documentId),
       );
-      documentList= list;
+      documentList = list;
       print(documentList);
       movieController.sink.add(documentList);
       try {
@@ -64,6 +64,9 @@ class MovieListBloc {
 
 /*This will automatically fetch the next 10 elements from the list*/
   fetchNextMovies(String search) async {
+    if (_firestoreService.lastSnapshot == null) {
+      return;
+    }
     try {
       updateIndicator(true);
       List<ParseModelRestaurants> list = await _firestoreService.collectionList(
@@ -72,7 +75,7 @@ class MovieListBloc {
           return query
               .orderBy("displayName")
               .where("displayName",
-              isGreaterThanOrEqualTo: search.toUpperCase())
+                  isGreaterThanOrEqualTo: search.toUpperCase())
               .startAfterDocument(_firestoreService.lastSnapshot)
               .limit(2);
         },
