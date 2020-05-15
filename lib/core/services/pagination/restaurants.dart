@@ -7,12 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../firestore_path.dart';
 import '../firestore_service.dart';
-import 'FirebaseProvider.dart';
 
-class MovieListBloc {
+class RestaurantsPagination {
   final _firestoreService = FirestoreService();
-
-  FirebaseProvider firebaseProvider;
 
   List<ParseModelRestaurants> documentList;
 
@@ -21,10 +18,9 @@ class MovieListBloc {
   bool showIndicator = false;
   BehaviorSubject<bool> showIndicatorController;
 
-  MovieListBloc() {
+  RestaurantsPagination() {
     movieController = BehaviorSubject<List<ParseModelRestaurants>>();
     showIndicatorController = BehaviorSubject<bool>();
-    firebaseProvider = FirebaseProvider();
   }
 
   Stream get getShowIndicatorStream => showIndicatorController.stream;

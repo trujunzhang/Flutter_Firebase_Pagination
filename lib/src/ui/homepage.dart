@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:ieatta/core/services/pagination/bloc.dart';
+import 'package:ieatta/core/services/pagination/restaurants.dart';
 import 'package:ieatta/src/appModels/models/Restaurants.dart';
 
 import 'search_bar_ui.dart';
@@ -11,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  MovieListBloc movieListBloc;
+  RestaurantsPagination movieListBloc = RestaurantsPagination();
   String query = "";
 
 // String query ="fo";
@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    movieListBloc = MovieListBloc();
     movieListBloc.fetchFirstList(query);
     controller.addListener(_scrollListener);
   }
