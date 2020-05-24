@@ -1,17 +1,3 @@
-enum FBCollections {
-  Restaurants,
-  Cellular,
-  Offline,
-}
-
-fbCollectionToString(FBCollections path) {
-  switch (path) {
-    case FBCollections.Restaurants:
-      return "restaurants";
-    default:
-      return "none";
-  }
-}
 
 /*
 This class defines all the possible read/write locations from the Firestore database.

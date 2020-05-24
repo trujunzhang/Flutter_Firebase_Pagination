@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ieatta/core/enums/fb_collections.dart';
 import 'package:meta/meta.dart';
-
-import 'firestore_path.dart';
 
 /*
 This class represent all possible CRUD operation for Firestore.
