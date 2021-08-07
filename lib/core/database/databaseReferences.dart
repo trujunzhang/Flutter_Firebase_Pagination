@@ -3,10 +3,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseReferences {
   CollectionReference restaurants, users;
 
-  Firestore firestore;
+  FirebaseFirestore firestore;
 
   DatabaseReferences() {
-    firestore = Firestore.instance;
+    firestore = FirebaseFirestore.instance;
     restaurants = firestore.collection('restaurants');
     users = firestore.collection('users');
   }

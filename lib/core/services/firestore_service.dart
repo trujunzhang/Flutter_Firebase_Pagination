@@ -16,9 +16,9 @@ class FirestoreService {
     @required Map<String, dynamic> data,
     bool merge = false,
   }) async {
-    final reference = Firestore.instance.document(fbCollectionToString(path));
+    final reference = FirebaseFirestore.instance.doc(fbCollectionToString(path));
     print('$path: $data');
-    await reference.setData(data, merge: merge);
+    // await reference.setData(data, merge: merge);
   }
 
   Future<void> bulkSet({
@@ -33,7 +33,7 @@ class FirestoreService {
   }
 
   Future<void> deleteData({@required FBCollections path}) async {
-    final reference = Firestore.instance.document(fbCollectionToString(path));
+    final reference = FirebaseFirestore.instance.doc(fbCollectionToString(path));
     print('delete: $path');
     await reference.delete();
   }
@@ -44,14 +44,14 @@ class FirestoreService {
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) {
-    Query query = Firestore.instance.collection(fbCollectionToString(path));
+    Query query = FirebaseFirestore.instance.collection(fbCollectionToString(path));
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
     final Stream<QuerySnapshot> snapshots = query.snapshots();
     return snapshots.map((snapshot) {
-      final result = snapshot.documents
-          .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+      final result = snapshot.docs
+          .map((snapshot) => builder(snapshot.data(), snapshot.id))
           .where((value) => value != null)
           .toList();
       if (sort != null) {
@@ -74,15 +74,15 @@ class FirestoreService {
     Query queryBuilder(Query query),
     int sort(T lhs, T rhs),
   }) async {
-    Query query = Firestore.instance.collection(fbCollectionToString(path));
+    Query query = FirebaseFirestore.instance.collection(fbCollectionToString(path));
     if (queryBuilder != null) {
       query = queryBuilder(query);
     }
-    QuerySnapshot snapshot = await query.getDocuments();
-    List<DocumentSnapshot> documents = snapshot.documents;
+    QuerySnapshot snapshot = await query.get();
+    List<DocumentSnapshot> documents = snapshot.docs;
     _getLastSnapshot(documents);
     List<T> result = documents
-        .map((snapshot) => builder(snapshot.data, snapshot.documentID))
+        .map((snapshot) => builder(snapshot.data(), snapshot.id))
         .where((value) => value != null)
         .toList();
     if (sort != null) {
@@ -96,9 +96,9 @@ class FirestoreService {
     @required T builder(Map<String, dynamic> data, String documentID),
   }) {
     final DocumentReference reference =
-        Firestore.instance.document(fbCollectionToString(path));
+    FirebaseFirestore.instance.doc(fbCollectionToString(path));
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
     return snapshots
-        .map((snapshot) => builder(snapshot.data, snapshot.documentID));
+        .map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 }
